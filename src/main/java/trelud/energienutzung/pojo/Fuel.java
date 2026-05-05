@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Data
 @AllArgsConstructor
@@ -12,8 +13,10 @@ import lombok.NoArgsConstructor;
 @Entity
 public class Fuel {
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     Long fuel_id;
 
+    @ToString.Exclude
     @ManyToOne
     @JoinColumn(name = "year_id")
     Year year;

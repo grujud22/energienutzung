@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import java.util.List;
 
@@ -13,6 +14,7 @@ import java.util.List;
 @Entity
 public class Year {
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     Long year_id;
 
     Integer year;
@@ -23,6 +25,7 @@ public class Year {
     )
     List<Fuel> fuels;
 
+    @ToString.Exclude
     @ManyToOne
     @JoinColumn(name = "sector_id")
     Sector sector;
