@@ -1,48 +1,41 @@
 package trelud.energienutzung.pojo;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
 
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
 @Entity
+@Table(name = "fuel")
+@Data
 public class Fuel {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long fuel_id;
 
-    @ToString.Exclude
-    @ManyToOne
-    @JoinColumn(name = "sector_id")
-    @JsonBackReference
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    private String name;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "sector_id", nullable = false)
     private Sector sector;
 
-    private String fuel;
+    @Column(name = "space_and_water_heating_tj")
+    private Double spaceAndWaterHeating;
 
-    @JsonProperty("Space and water heating")
-    private Double SpaceAndWaterHeating;
+    @Column(name = "process_heat_below_200c_tj")
+    private Double processHeatBelow200c;
 
-    @JsonProperty("Process heat <200 °C")
-    private Double processHeatUnder200;
+    @Column(name = "process_heat_above_200c_tj")
+    private Double processHeatAbove200c;
 
-    @JsonProperty("Process heat >200 °C")
-    private Double processHeatOver200;
-
-    @JsonProperty("Stationary engines")
+    @Column(name = "stationary_engines_tj")
     private Double stationaryEngines;
 
-    @JsonProperty("Traction")
+    @Column(name = "traction_tj")
     private Double traction;
 
-    @JsonProperty("Lighting and computing")
+    @Column(name = "lighting_and_computing_tj")
     private Double lightingAndComputing;
 
-    @JsonProperty("Electrochemical purposes")
+    @Column(name = "electrochemical_purposes_tj")
     private Double electrochemicalPurposes;
 }
