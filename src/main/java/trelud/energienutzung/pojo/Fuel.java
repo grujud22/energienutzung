@@ -3,6 +3,7 @@ package trelud.energienutzung.pojo;
 import com.fasterxml.jackson.annotation.JsonAlias;
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.ToString;
 
 @Entity
 @Table(name = "fuel")
@@ -15,6 +16,7 @@ public class Fuel {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "sector_id", nullable = false)
+    @ToString.Exclude
     private Sector sector;
 
 
