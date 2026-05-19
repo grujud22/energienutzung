@@ -359,12 +359,3 @@
 ,"Biofuels",16.1303405,,-,,-,,0.0326304,,1.3129005,,-,,-,,-,,-,,-,,-,,-,,-,,-,,
 ,"Non-renewable waste",-,,-,,-,,-,,-,,-,,-,,-,,-,,-,,-,,-,,-,,-,,
 ,"Other fuels",4.0056045,,-,,-,,-,,-,,-,,-,,-,,-,,-,,-,,-,,-,,-,,
-
-
-Symbol,Description
-"Q","STATcube � Statistical Database of STATISTICS AUSTRIA"
-"Useful energy analyses as of 2005",".) Important notice: Due to statistical confidentiality, certain balance sheet aggregates at the federal-state level are not published. As a result, the sum of the federal-state values shows discrepancies compared to the values published for Austria. .) Subject of the statistics: Useful energy analyses focus on the breakdown of final energy consumption into useful energy categories. .) Legal basis: Five-year contracts with the Austrian Federal Ministry for Climate Action, Environment, Energy, Mobility, Innovation and Technology (BMK), annual contracts with the nine provinces (L�nder) of Austria; .) Updating: Time series adjustment as per December of the subsequent year of the reporting period. Last update: [2025-12-11] .) Contact details: Directorate Spatial Statistics - Energy and Environment division Manfred Gollner, phone: +43 1 711 28-7573, mail: manfred.gollner@statistik.gv.at Other Metadata: https://www.statistik.at/fileadmin/shared/QM/Standarddokumentationen/RW/engl_std_r_nea.pdf"
-"Province (NUTS 2 unit)","Due to statistical confidentiality, certain balance sheet aggregates at the federal-state level are not published. As a result, the sum of the federal-state values shows discrepancies compared to the values published for Austria. NUTS is the abbreviation of 'Nomenclature des unites territoriales statistiques', in English 'Classification of territorial units for statistics' and is a general, hierarchically structured territorial classification of EU member states. Parameters bear - in brackets - a three- to multi-digit code depending on the respective level; the first two digits are 'AT', which is the ISO (International Standards Organisation) 2 digit for Austria."
-
-
-(c) Copyright Statistics Austria
