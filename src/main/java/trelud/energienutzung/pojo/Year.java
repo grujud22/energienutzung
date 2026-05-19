@@ -12,11 +12,12 @@ public class Year {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long year_id;
 
-    @Column(name = "year", nullable = false, unique = true)
     private int year;
 
-    @OneToMany(mappedBy = "year", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "year",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true)
     private List<Region> regions;
 }

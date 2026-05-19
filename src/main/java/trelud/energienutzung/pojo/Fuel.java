@@ -13,6 +13,11 @@ public class Fuel {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long fuel_id;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "sector_id", nullable = false)
+    private Sector sector;
+
+
     @JsonAlias({"fuel_name"})
     private String fuelName;
 

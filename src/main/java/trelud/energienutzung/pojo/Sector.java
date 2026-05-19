@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonAlias;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -13,8 +14,17 @@ public class Sector {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long sector_id;
 
-    @JsonAlias
-    private String name;
+    @JsonAlias({"sector_name"})
+    private String sectorName;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "region_id", nullable = false)
+    private Region region;
+
+    @OneToMany(mappedBy = "sector",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true)
+    private List<Fuel> fuels;
 }
