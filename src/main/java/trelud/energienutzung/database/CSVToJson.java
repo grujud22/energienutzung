@@ -24,6 +24,8 @@ import java.util.NoSuchElementException;
 @RequiredArgsConstructor
 public class CSVToJson implements ApplicationRunner {
 
+    public final YearRepository yearRepository;
+
     @Override
     public void run(ApplicationArguments args) throws Exception {
         List<Year> years = new ArrayList<>();
@@ -85,7 +87,8 @@ public class CSVToJson implements ApplicationRunner {
                 }
             }
         }
-        log.info("Finished reading csv");
+        yearRepository.saveAll(years);
+        log.info("finished Saving");
     }
 
     private List<Region> getRegions(String[] tokens){
