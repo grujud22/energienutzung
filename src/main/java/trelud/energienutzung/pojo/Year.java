@@ -3,6 +3,7 @@ package trelud.energienutzung.pojo;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -19,5 +20,5 @@ public class Year {
     @OneToMany(mappedBy = "year",
             cascade = CascadeType.ALL,
             orphanRemoval = true)
-    private List<Region> regions;
+    private List<Region> regions = new ArrayList<>();
 }

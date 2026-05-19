@@ -3,7 +3,9 @@ package trelud.energienutzung.pojo;
 import com.fasterxml.jackson.annotation.JsonAlias;
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.ToString;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -20,8 +22,9 @@ public class Region {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "year_id", nullable = false)
+    @ToString.Exclude
     private Year year;
 
     @OneToMany(mappedBy = "region", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Sector> sectors;
+    private List<Sector> sectors = new ArrayList<>();
 }
