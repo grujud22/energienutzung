@@ -1,6 +1,8 @@
 package trelud.energienutzung.pojo;
 
 import com.fasterxml.jackson.annotation.JsonAlias;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.ToString;
@@ -23,10 +25,12 @@ public class Sector {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "region_id", nullable = false)
     @ToString.Exclude
+    @JsonBackReference("regionSectors")
     private Region region;
 
     @OneToMany(mappedBy = "sector",
             cascade = CascadeType.ALL,
             orphanRemoval = true)
+    @JsonManagedReference("sectorFuels")
     private List<Fuel> fuels = new ArrayList<>();
 }

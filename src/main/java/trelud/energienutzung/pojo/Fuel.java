@@ -1,6 +1,7 @@
 package trelud.energienutzung.pojo;
 
 import com.fasterxml.jackson.annotation.JsonAlias;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.ToString;
@@ -17,6 +18,7 @@ public class Fuel {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "sector_id", nullable = false)
     @ToString.Exclude
+    @JsonBackReference("sectorFuels")
     private Sector sector;
 
 
