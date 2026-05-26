@@ -27,10 +27,11 @@ public class CSVToJson implements ApplicationRunner {
     public final YearRepository yearRepository;
 
     public static final boolean READ_CSV = false;
+    public static final boolean READ_FROM_FILE = false;
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
-        if(READ_CSV){
+        if(READ_CSV && READ_FROM_FILE){
             List<Year> years = new ArrayList<>();
             PathMatchingResourcePatternResolver resolver =
                     new PathMatchingResourcePatternResolver();

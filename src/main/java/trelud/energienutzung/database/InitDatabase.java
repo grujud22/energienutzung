@@ -21,7 +21,7 @@ public class InitDatabase implements ApplicationRunner {
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
-        if(!CSVToJson.READ_CSV && false){
+        if(!CSVToJson.READ_CSV && CSVToJson.READ_FROM_FILE){
             try {
                 InputStream is = this.getClass().getResourceAsStream("/data.json");
 
