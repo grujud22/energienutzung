@@ -86,8 +86,8 @@ public class CSVToJson implements ApplicationRunner {
                             }
                             addCells(tokens, regions, currentSector);
                         }
-                    }catch (ArrayIndexOutOfBoundsException ignored){
-                        log.info(resource.getFilename() + " IGNORED because " + ignored.getMessage() + "\n" + line);
+                    }catch (ArrayIndexOutOfBoundsException ex){
+                        log.info(resource.getFilename() + " IGNORED because " + ex.getMessage() + "\n" + line);
                     }
                 }
             }
@@ -133,6 +133,7 @@ public class CSVToJson implements ApplicationRunner {
                                 .filter(s -> s.getSectorName().equals(currentSectorName))
                                 .findFirst()
                                 .orElse(null);
+                if(currentSector == null) break;
                 currentSector.getFuels().add(currentFuel);
                 currentFuel.setSector(currentSector);
             }
