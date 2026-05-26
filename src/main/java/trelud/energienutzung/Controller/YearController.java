@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/energienutzung/years")
+@RequestMapping("/energy/years")
 @RequiredArgsConstructor
 public class YearController {
     public final YearService yearService;

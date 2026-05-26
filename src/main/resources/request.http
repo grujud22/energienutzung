@@ -1,1 +1,1 @@
-GET http://localhost:8080/energienutzung/years/
+GET http://localhost:8080/energy/years/
