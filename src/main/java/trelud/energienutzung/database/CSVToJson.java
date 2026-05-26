@@ -142,6 +142,9 @@ public class CSVToJson implements ApplicationRunner {
                             tokens[i]
                     );
                 }catch (NumberFormatException ignored){}
+                if(value == null){
+                    value = 0.0;
+                }
                 switch ((i-2)%14){
                     case 0:
                         currentFuel.setSpaceAndWaterHeating(value);
