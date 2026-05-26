@@ -44,6 +44,7 @@ public class InitDatabase implements ApplicationRunner {
                 });
 
                 yearRepository.saveAll(years);
+                log.info("finished saving JSON");
             } catch (IOException ioex) {
                 log.warn("File problem");
                 log.debug("File problem " + ioex.getMessage());

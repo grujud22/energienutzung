@@ -91,7 +91,7 @@ public class CSVToJson implements ApplicationRunner {
                 }
             }
             yearRepository.saveAll(years);
-            log.info("finished Saving");
+            log.info("finished saving CSV");
         }
     }
 
