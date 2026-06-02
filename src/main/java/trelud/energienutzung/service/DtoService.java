@@ -10,13 +10,13 @@ import java.util.stream.Collectors;
 
 @Slf4j
 public class DtoService {
-    public static List<Map<String, Object>> toDto(List<?> objectsToDto){
+    public static List<Map<String, Object>> convertList(List<?> objectsToDto){
         return objectsToDto.stream()
                 .map(DtoService::convertObject)
                 .collect(Collectors.toList());
     }
 
-    private static Map<String, Object> convertObject(Object o){
+    public static Map<String, Object> convertObject(Object o){
         Class<?> clazz = o.getClass();
         Map<String, Object> map = new HashMap<>();
         for (Field field : clazz.getDeclaredFields()){
