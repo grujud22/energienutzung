@@ -10,8 +10,8 @@ import java.util.List;
 
 @Repository
 public interface RegionRepository extends JpaRepository<Region, Long> {
-    @Query("SELECT r FROM Region r WHERE r.year.year = 2024")
-    List<Region> findAllByLatest();
-    @Query("SELECT r FROM Region r WHERE r.year.year = :yearNum")
-    List<Region> findAllByYear(@Param("yearNum") int year);
+//    @Query("SELECT r FROM Region r WHERE r.year.year = 2024")
+//    List<Region> findAllByLatest();
+//    @Query("SELECT r FROM Region r WHERE r.year.year = :yearNum")
+//    List<Region> findAllByYear(@Param("yearNum") int year);
 }

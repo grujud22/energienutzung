@@ -1,4 +1,4 @@
-package trelud.energienutzung.database;
+package trelud.energienutzung.utils;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -7,6 +7,7 @@ import org.springframework.boot.ApplicationRunner;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.stereotype.Component;
+import trelud.energienutzung.database.ConnectionRepository;
 import trelud.energienutzung.pojo.*;
 
 import java.io.BufferedReader;
@@ -22,6 +23,7 @@ import java.util.NoSuchElementException;
 @RequiredArgsConstructor
 public class CSVToJson implements ApplicationRunner {
 
+    private final ConnectionRepository connectionRepository;
 
     public static final boolean READ_CSV = true;
     public static final boolean READ_FROM_FILE = true;
@@ -48,7 +50,7 @@ public class CSVToJson implements ApplicationRunner {
                         if(tokens[0].equals("\"Year\"")){
                             int yearNumber = Integer.parseInt(tokens[1].substring(1, tokens[1].length()-1));
 
-                            if(currentYear.getYear() != yearNumber){
+                            if(currentYear == null || currentYear.getYear() != yearNumber){
                                 Year year = new Year();
                                 year.setYear(yearNumber);
                                 currentYear = year;
@@ -61,9 +63,6 @@ public class CSVToJson implements ApplicationRunner {
                                         Connection newConnection = new Connection();
                                         newConnection.setYear(currentYear);
                                         newConnection.setRegion(region);
-
-                                        currentYear.getConnections().add(newConnection);
-                                        region.getConnections().add(newConnection);
 
                                         regions.add(region);
                                         yearRegionConnection.add(newConnection);
@@ -84,9 +83,12 @@ public class CSVToJson implements ApplicationRunner {
                                 Connection newConnection = new Connection();
                                 newConnection.setRegion(c.getRegion());
                                 newConnection.setYear(c.getYear());
-
                                 newConnection.setSector(sector);
+
+                                c.getYear().getConnections().add(newConnection);
+                                c.getRegion().getConnections().add(newConnection);
                                 sector.getConnections().add(newConnection);
+
                                 yearRegionSectorConnection.add(newConnection);
                             }
 
@@ -96,8 +98,9 @@ public class CSVToJson implements ApplicationRunner {
                         log.info(resource.getFilename() + " IGNORED because " + ex.getMessage() + "\n" + line);
                     }
                 }
+                connections.addAll(yearRegionSectorConnection);
             }
-
+            connectionRepository.saveAll(connections);
             log.info("finished saving CSV");
         }
     }

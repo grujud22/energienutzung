@@ -1,4 +1,4 @@
-//package trelud.energienutzung.database;
+//package trelud.energienutzung.utils;
 //
 //import lombok.RequiredArgsConstructor;
 //import lombok.extern.slf4j.Slf4j;
