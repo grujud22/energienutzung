@@ -36,7 +36,7 @@ class DtoServiceTest {
 
     static class PersonWithNestedList {
         @ToDto
-        List<Address> addresses = new ArrayList<>();
+        List<Address> addresses = List.of(new Address());
     }
 
     static class PersonWithUnAnnotatedField {
@@ -70,5 +70,21 @@ class DtoServiceTest {
         assertFalse(result.containsKey("ignored"));
         assertTrue(result.containsKey("visible"));
         assertEquals("yes", result.get("visible"));
+    }
+
+    @Test
+    void testAnnotatedNestedList() {
+        Map<String, Object> result = DtoService.convertObject(new PersonWithNestedList());
+
+        assertTrue(result.containsKey("addresses"));
+        Object value = result.get("addresses");
+        assertInstanceOf(List.class, value);
+
+        List<Address> list = (List<Address>) value;
+        assertEquals(1, list.size());
+
+        Map<String, Object> addressMap = (Map<String, Object>) list.get(0);
+        assertEquals("Vienna", addressMap.get("city"));
+        assertEquals("1010", addressMap.get("zip"));
     }
 }
