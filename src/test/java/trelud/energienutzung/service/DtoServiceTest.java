@@ -48,6 +48,8 @@ class DtoServiceTest {
 
     static class EmptyObject {}
 
+    // convertObject test cases:
+
     @Test
     void annotatedWithDefaultKey() {
         Map<String, Object> result = DtoService.convertObject(new PersonWithDefaultKey());
@@ -93,6 +95,38 @@ class DtoServiceTest {
     @Test
     void testEmptyObject() {
         Map<String, Object> result = DtoService.convertObject(new EmptyObject());
+        assertTrue(result.isEmpty());
+    }
+
+    // convertList test cases:
+
+    @Test
+    void testListWithMultipleObjects() {
+        List<PersonWithDefaultKey> input = List.of(new PersonWithDefaultKey(), new PersonWithDefaultKey());
+
+        List<Map<String, Object>> result = DtoService.convertList(input);
+
+        assertEquals(2, result.size());
+        result.forEach(map -> {
+            assertEquals("Max", map.get("name"));
+            assertEquals(30, map.get("age"));
+        });
+    }
+
+    @Test
+    void testListWithMixedObjects() {
+        List<Object> input = List.of(new PersonWithDefaultKey(), new PersonWithCustomKey());
+
+        List<Map<String, Object>> result = DtoService.convertList(input);
+
+        assertEquals(2, result.size());
+        assertTrue(result.get(0).containsKey("name"));
+        assertTrue(result.get(1).containsKey("fullName"));
+    }
+
+    @Test
+    void convertList_returnsEmptyListForEmptyInput() {
+        List<Map<String, Object>> result = DtoService.convertList(List.of());
         assertTrue(result.isEmpty());
     }
 }
