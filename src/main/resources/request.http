@@ -1,1 +1,11 @@
-GET http://localhost:8080/energienutzung/years/
+GET http://localhost:8080/energy/years/
+###
+GET http://localhost:8080/energy/years/2020
+###
+GET http://localhost:8080/energy/years/1999
+###
+GET http://localhost:8080/energy/region/
+###
+GET http://localhost:8080/energy/region/2020
+###
+GET http://localhost:8080/energy/region/1999

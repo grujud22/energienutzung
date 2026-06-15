@@ -22,7 +22,7 @@ public class InitDatabase implements ApplicationRunner {
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
-        if(!CSVToJson.READ_CSV){
+        if(!CSVToJson.READ_CSV && CSVToJson.READ_FROM_FILE){
             try {
                 InputStream is = this.getClass().getResourceAsStream("/data.json");
 
@@ -45,6 +45,7 @@ public class InitDatabase implements ApplicationRunner {
                 });
 
                 yearRepository.saveAll(years);
+                log.info("finished saving JSON");
             } catch (IOException ioex) {
                 log.warn("File problem");
                 log.debug("File problem " + ioex.getMessage());

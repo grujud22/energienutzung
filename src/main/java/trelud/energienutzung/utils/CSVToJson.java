@@ -27,11 +27,12 @@ public class CSVToJson implements ApplicationRunner {
 
     public final YearRepository yearRepository;
 
-    public static final boolean READ_CSV = true;
+    public static final boolean READ_CSV = false;
+    public static final boolean READ_FROM_FILE = false;
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
-        if(READ_CSV){
+        if(READ_CSV && READ_FROM_FILE){
             List<Year> years = new ArrayList<>();
             PathMatchingResourcePatternResolver resolver =
                     new PathMatchingResourcePatternResolver();
@@ -86,13 +87,13 @@ public class CSVToJson implements ApplicationRunner {
                             }
                             addCells(tokens, regions, currentSector);
                         }
-                    }catch (ArrayIndexOutOfBoundsException ignored){
-                        log.info(resource.getFilename() + " IGNORED because " + ignored.getMessage() + "\n" + line);
+                    }catch (ArrayIndexOutOfBoundsException ex){
+                        log.info(resource.getFilename() + " IGNORED because " + ex.getMessage() + "\n" + line);
                     }
                 }
             }
             yearRepository.saveAll(years);
-            log.info("finished Saving");
+            log.info("finished saving CSV");
         }
     }
 
@@ -102,7 +103,7 @@ public class CSVToJson implements ApplicationRunner {
         for (int i = 2; i < tokens.length; i++) {
             if (!tokens[i].isBlank()){
                 Region region = new Region();
-                region.setRegionName(tokens[i].substring(1, tokens[i].length() - 1));
+                region.setRegionName(tokens[i].substring(1, tokens[i].length() - 8));
                 region.setStartColumn(i);
                 regions.add(region);
             }
@@ -133,6 +134,7 @@ public class CSVToJson implements ApplicationRunner {
                                 .filter(s -> s.getSectorName().equals(currentSectorName))
                                 .findFirst()
                                 .orElse(null);
+                if(currentSector == null) break;
                 currentSector.getFuels().add(currentFuel);
                 currentFuel.setSector(currentSector);
             }
@@ -143,6 +145,9 @@ public class CSVToJson implements ApplicationRunner {
                             tokens[i]
                     );
                 }catch (NumberFormatException ignored){}
+                if(value == null){
+                    value = 0.0;
+                }
                 switch ((i-2)%14){
                     case 0:
                         currentFuel.setSpaceAndWaterHeating(value);
