@@ -4,51 +4,31 @@ A Spring Boot REST API serving Austrian energy usage data, broken down by year, 
 
 ## Data Structure
 
-The data follows a four-level hierarchy:
-
-```
-Year
-└── Region
-    └── Sector (e.g. Iron and steel)
-        └── Fuel (e.g. Hard coal, Natural gas)
-            ├── Space and water heating
-            ├── Process heat <200 °C
-            ├── Process heat >200 °C
-            ├── Stationary engines
-            ├── Traction
-            ├── Lighting and computing
-            └── Electrochemical purposes
-```
-
-Energy values are stored in GWh (gigawatt-hours) and may be `null` where no consumption was recorded for that category.
+Energy values are stored in GWh (gigawatt-hours) and may not be `null`
 
 **Example JSON snippet:**
 ```json
 [
   {
-    "year": 2024,
-    "regions": [
-      {
-        "region_name": "Styria",
-        "sectors": [
-          {
-            "sector_name": "Iron and steel",
-            "fuels": [
-              {
-                "fuel_name": "Hard coal",
-                "Space and water heating": 28.4,
-                "Process heat <200 °C": 42.1,
-                "Process heat >200 °C": 215.6,
-                "Stationary engines": 6.2,
-                "Traction": null,
-                "Lighting and computing": null,
-                "Electrochemical purposes": null
-              }
-            ]
-          }
-        ]
-      }
-    ]
+    "year": {
+      "year": 2020
+    },
+    "fuel": {
+      "fuelName": "Hard coal",
+      "electrochemicalPurposes": 0.0,
+      "spaceAndWaterHeating": 28.4,
+      "stationaryEngines": 6.2,
+      "processHeatBelow200c": 42.1,
+      "processHeatAbove200c": 215.6,
+      "lightingAndComputing": 0.0,
+      "traction": 0.0
+    },
+    "region": {
+      "regionName": "Styria"
+    },
+    "sector": {
+      "sectorName": "Iron and steel"
+    }
   }
 ]
 ```
