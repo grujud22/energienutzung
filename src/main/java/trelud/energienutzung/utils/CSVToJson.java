@@ -33,6 +33,7 @@ public class CSVToJson implements ApplicationRunner {
 
     @Override
     public void run(@NonNull ApplicationArguments args) throws Exception {
+        log.info("Starting with:  - READ_CSV:{}  - READ_FROM_FILE:{}", READ_CSV, READ_FROM_FILE);
         if(READ_CSV && READ_FROM_FILE){
             List<Connection> connections = new ArrayList<>();
             List<Region> regions = new ArrayList<>();
