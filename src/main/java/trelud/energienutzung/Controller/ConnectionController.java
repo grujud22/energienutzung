@@ -18,12 +18,12 @@ public class ConnectionController {
 
     private final ConnectionService connectionService;
 
-    @GetMapping("/")
+    @GetMapping("/connection")
     public ResponseEntity<?> getConnectionsByYearByRegionBySectorByFuelType(
-            @RequestParam int year,
-            @RequestParam String region,
-            @RequestParam String sector,
-            @RequestParam String fuelType
+            @RequestParam(required = false, defaultValue = "-1") int year,
+            @RequestParam(required = false, defaultValue = "*") String region,
+            @RequestParam(required = false, defaultValue = "*") String sector,
+            @RequestParam(required = false, defaultValue = "*") String fuelType
     ){
         try {
             return ResponseEntity.ok(connectionService.getConnectionsByYearByRegionBySectorByFuelType(year, region, sector, fuelType));
