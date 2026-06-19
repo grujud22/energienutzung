@@ -31,20 +31,20 @@ public class ConnectionService {
         Fuel fuel = fuelRepository.getFuelByName(fuelTypeName);
         Year year = yearRepository.findByYear(yearNumber);
 
-        if (year == null) {
-            throw new NoSuchElementException("Year " + yearNumber + "not found");
+        if (year == null && yearNumber != -1) {
+            throw new NoSuchElementException("Year " + yearNumber + " not found");
         }
 
-        if (region == null) {
-            throw new NoSuchElementException("Region " + regionName + "not found");
+        if (region == null && !regionName.equals("*")) {
+            throw new NoSuchElementException("Region " + regionName + " not found");
         }
 
-        if (sector == null) {
-            throw new NoSuchElementException("Sector " + sectorName + "not found");
+        if (sector == null && !sectorName.equals("*")) {
+            throw new NoSuchElementException("Sector " + sectorName + " not found");
         }
 
-        if (fuel == null) {
-            throw new NoSuchElementException("Fuel Type " + fuelTypeName + "not found");
+        if (fuel == null && !fuelTypeName.equals("*")) {
+            throw new NoSuchElementException("Fuel Type " + fuelTypeName + " not found");
         }
 
         return DtoService.convertList(connectionRepository.getConnectionsByYearByRegionBySectorByFuelType(yearNumber, regionName, sectorName, fuelTypeName));
