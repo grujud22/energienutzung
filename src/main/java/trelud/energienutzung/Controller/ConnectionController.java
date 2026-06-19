@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 import trelud.energienutzung.service.ConnectionService;
 
 import java.rmi.NoSuchObjectException;
+import java.util.NoSuchElementException;
 
 @RestController
 @RequestMapping("/energy")
@@ -27,7 +28,7 @@ public class ConnectionController {
     ){
         try {
             return ResponseEntity.ok(connectionService.getConnectionsByYearByRegionBySectorByFuelType(year, region, sector, fuelType));
-        } catch (NoSuchObjectException e) {
+        } catch (NoSuchElementException e) {
             return ResponseEntity
                     .status(HttpStatus.NOT_FOUND)
                     .body(e.getMessage());

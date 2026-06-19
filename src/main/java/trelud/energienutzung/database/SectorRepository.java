@@ -6,10 +6,12 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import trelud.energienutzung.pojo.Sector;
 
+import java.util.Optional;
+
 @Repository
 public interface SectorRepository extends JpaRepository<Sector, Long> {
     @Query("SELECT s FROM Sector s WHERE s.sectorName = :sectorName")
-    Sector getSectorByName(
+    Optional<Sector> getSectorByName(
             @Param("sectorName") String sectorName
     );
 }

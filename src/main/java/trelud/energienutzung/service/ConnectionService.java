@@ -25,11 +25,11 @@ public class ConnectionService {
             String regionName,
             String sectorName,
             String fuelTypeName
-    ) throws NoSuchObjectException {
-        Region region = regionRepository.getRegionByName(regionName);
-        Sector sector = sectorRepository.getSectorByName(sectorName);
+    ) throws NoSuchElementException {
+        Region region = regionRepository.getRegionByName(regionName).orElse(null);
+        Sector sector = sectorRepository.getSectorByName(sectorName).orElse(null);
         List<Fuel> fuels = fuelRepository.getFuelByName(fuelTypeName);
-        Year year = yearRepository.findByYear(yearNumber);
+        Year year = yearRepository.findByYear(yearNumber).orElse(null);
 
         if (year == null && yearNumber != -1) {
             throw new NoSuchElementException("Year " + yearNumber + " not found");

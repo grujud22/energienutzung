@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 import trelud.energienutzung.pojo.Region;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface RegionRepository extends JpaRepository<Region, Long> {
@@ -16,7 +17,7 @@ public interface RegionRepository extends JpaRepository<Region, Long> {
 //    List<Region> findAllByYear(@Param("yearNum") int year);
 
     @Query("SELECT r FROM Region r WHERE r.regionName = :regionName")
-    Region getRegionByName(
+    Optional<Region> getRegionByName(
             @Param("regionName") String regionName
     );
 }
