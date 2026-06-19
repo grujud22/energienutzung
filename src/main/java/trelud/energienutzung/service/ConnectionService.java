@@ -32,7 +32,23 @@ public class ConnectionService {
         Region region = regionRepository.getRegionByName(regionName);
         Sector sector = sectorRepository.getSectorByName(sectorName);
         Fuel fuel = fuelRepository.getFuelByName(fuelTypeName);
+        Year year = yearRepository.findByYear(yearNumber);
 
+        if (year == null) {
+            throw new NoSuchElementException("Year " + yearNumber + "not found");
+        }
+
+        if (region == null) {
+            throw new NoSuchElementException("Region " + regionName + "not found");
+        }
+
+        if (sector == null) {
+            throw new NoSuchElementException("Sector " + sectorName + "not found");
+        }
+
+        if (fuel == null) {
+            throw new NoSuchElementException("Fuel Type " + fuelTypeName + "not found");
+        }
 
 
 
