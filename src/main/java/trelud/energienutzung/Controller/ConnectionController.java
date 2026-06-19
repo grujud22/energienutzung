@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import trelud.energienutzung.service.ConnectionService;
 
-import java.rmi.NoSuchObjectException;
 import java.util.NoSuchElementException;
 
 @RestController

@@ -104,7 +104,9 @@ public class CSVToJson implements ApplicationRunner {
                                 case "Useful energy category":
                                     break;
                                 default:
-                                    connections.addAll(addCells(tokens, currentRegions, currentSectorName, yearRegionSectorConnection, currentYear.getYear()));
+                                    if (currentYear != null){
+                                        connections.addAll(addCells(tokens, currentRegions, currentSectorName, yearRegionSectorConnection, currentYear.getYear()));
+                                    }
                                     break;
                             }
                         } else if (!tokens[0].equals("\"Sector\"")) {
@@ -131,7 +133,9 @@ public class CSVToJson implements ApplicationRunner {
 
                                 yearRegionSectorConnection.add(newConnection);
                             }
-                            connections.addAll(addCells(tokens, currentRegions, currentSectorName, yearRegionSectorConnection, currentYear.getYear()));
+                            if (currentYear != null){
+                                connections.addAll(addCells(tokens, currentRegions, currentSectorName, yearRegionSectorConnection, currentYear.getYear()));
+                            }
                         }
                     }catch (ArrayIndexOutOfBoundsException ex){
                         log.warn("{} IGNORED because {}\n{}", resource.getFilename(), ex.getMessage(), line);

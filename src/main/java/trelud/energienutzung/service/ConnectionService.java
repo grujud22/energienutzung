@@ -5,7 +5,6 @@ import org.springframework.stereotype.Service;
 import trelud.energienutzung.database.*;
 import trelud.energienutzung.pojo.*;
 
-import java.rmi.NoSuchObjectException;
 import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
