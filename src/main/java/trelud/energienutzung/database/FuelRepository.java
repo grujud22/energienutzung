@@ -6,10 +6,12 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import trelud.energienutzung.pojo.Fuel;
 
+import java.util.List;
+
 @Repository
 public interface FuelRepository extends JpaRepository<Fuel, Long> {
     @Query("SELECT f FROM Fuel f WHERE f.fuelName = :fuelName")
-    Fuel getFuelByName(
+    List<Fuel> getFuelByName(
             @Param("fuelName") String fuelName
     );
 }

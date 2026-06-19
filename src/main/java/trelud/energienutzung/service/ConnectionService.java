@@ -28,7 +28,7 @@ public class ConnectionService {
     ) throws NoSuchObjectException {
         Region region = regionRepository.getRegionByName(regionName);
         Sector sector = sectorRepository.getSectorByName(sectorName);
-        Fuel fuel = fuelRepository.getFuelByName(fuelTypeName);
+        List<Fuel> fuels = fuelRepository.getFuelByName(fuelTypeName);
         Year year = yearRepository.findByYear(yearNumber);
 
         if (year == null && yearNumber != -1) {
@@ -43,7 +43,7 @@ public class ConnectionService {
             throw new NoSuchElementException("Sector " + sectorName + " not found");
         }
 
-        if (fuel == null && !fuelTypeName.equals("*")) {
+        if (fuels.isEmpty() && !fuelTypeName.equals("*")) {
             throw new NoSuchElementException("Fuel Type " + fuelTypeName + " not found");
         }
 
