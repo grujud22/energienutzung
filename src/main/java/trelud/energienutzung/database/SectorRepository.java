@@ -10,7 +10,7 @@ import java.util.Optional;
 
 @Repository
 public interface SectorRepository extends JpaRepository<Sector, Long> {
-    @Query("SELECT s FROM Sector s WHERE s.sectorName = :sectorName")
+    @Query("SELECT s FROM Sector s WHERE Upper(s.sectorName) = Upper(:sectorName)")
     Optional<Sector> getSectorByName(
             @Param("sectorName") String sectorName
     );

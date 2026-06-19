@@ -10,7 +10,7 @@ import java.util.List;
 
 @Repository
 public interface FuelRepository extends JpaRepository<Fuel, Long> {
-    @Query("SELECT f FROM Fuel f WHERE f.fuelName = :fuelName")
+    @Query("SELECT f FROM Fuel f WHERE Upper(f.fuelName) = Upper(:fuelName)")
     List<Fuel> getFuelByName(
             @Param("fuelName") String fuelName
     );

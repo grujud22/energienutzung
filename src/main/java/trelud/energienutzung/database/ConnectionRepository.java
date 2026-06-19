@@ -12,9 +12,9 @@ import java.util.List;
 public interface ConnectionRepository extends JpaRepository<Connection, Long> {
     @Query("SELECT c FROM Connection c WHERE "
             + "(c.year.year = :yearNumber OR :yearNumber = -1) "
-            + "AND (c.region.regionName = :regionName OR :regionName = '*') "
-            + "AND (c.sector.sectorName = :sectorName OR :sectorName = '*') "
-            + "AND (c.fuel.fuelName = :fuelTypeName OR :fuelTypeName = '*')")
+            + "AND (Upper(c.region.regionName) = Upper(:regionName) OR :regionName = '*') "
+            + "AND (Upper(c.sector.sectorName) = Upper(:sectorName) OR :sectorName = '*') "
+            + "AND (Upper(c.fuel.fuelName) = Upper(:fuelTypeName) OR :fuelTypeName = '*')")
     List<Connection> getConnectionsByYearByRegionBySectorByFuelType(
             @Param("yearNumber") int yearNumber,
             @Param("regionName") String regionName,

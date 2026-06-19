@@ -11,7 +11,7 @@ import java.util.Optional;
 
 @Repository
 public interface RegionRepository extends JpaRepository<Region, Long> {
-    @Query("SELECT r FROM Region r WHERE r.regionName = :regionName")
+    @Query("SELECT r FROM Region r WHERE Upper(r.regionName) = Upper(:regionName)")
     Optional<Region> getRegionByName(
             @Param("regionName") String regionName
     );
