@@ -33,7 +33,7 @@ public class DtoService {
                             object = convertObject(object);
                         }
                         map.put(name, object);
-                    } catch (IllegalAccessException e) {
+                    } catch (Exception e) {
                         map.put(name, null);
                     }
                 }
