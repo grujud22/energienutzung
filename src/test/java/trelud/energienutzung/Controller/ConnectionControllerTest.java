@@ -12,10 +12,7 @@ import trelud.energienutzung.pojo.*;
 import trelud.energienutzung.service.ConnectionService;
 import trelud.energienutzung.service.DtoService;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -77,5 +74,19 @@ class ConnectionControllerTest {
                 ))
                 .andExpect(status().isOk())
                 .andExpect(content().json(expectedJson));
+    }
+
+    @Test
+    void get_shouldReturnError() throws Exception {
+        when(
+                connectionService.getConnectionsByYearByRegionBySectorByFuelType(0,
+                        "a",
+                        "a",
+                        "a"))
+                .thenThrow(new NoSuchElementException("No Element found"));
+        mockMvc.perform(
+                get("http://localhost:8080/energy/connection?year=0&region=a&sector=a&fuelType=a")
+        ).andExpect(status().isNotFound())
+                .andExpect(content().string("No Element found"));
     }
 }
