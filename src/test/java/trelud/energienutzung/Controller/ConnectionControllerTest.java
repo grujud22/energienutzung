@@ -28,7 +28,7 @@ class ConnectionControllerTest {
     @Test
     void get_shouldReturnOneConnection() throws Exception {
         ObjectMapper objectMapper = new ObjectMapper();
-        List<Connection> expectedConnections = new ArrayList<>();
+
 
         Connection expectedConnection = new Connection();
 
@@ -48,6 +48,7 @@ class ConnectionControllerTest {
         expectedFuel.setFuelName("Hard coal");
         expectedConnection.setFuel(expectedFuel);
 
+        List<Connection> expectedConnections = new ArrayList<>();
         expectedConnections.add(expectedConnection);
 
         List<Map<String, Object>> expectedList =

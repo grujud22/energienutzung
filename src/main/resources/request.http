@@ -12,4 +12,4 @@ GET http://localhost:8080/energy/region/1999
 ###
 GET http://localhost:8080/energy/connection?year=2020&region=Styria&sector=Iron and steel&fuelType=Coke
 ###
-GET http://localhost:8080/energy/connection?year=1&region=Styria&sector=Iron and steel&fuelType=Coke
+GET http://localhost:8080/energy/connection?sector=Iron and steel&fuelType=Coke

@@ -99,7 +99,7 @@ class ConnectionServiceTest {
     @Test
     void getConnections_ShouldThrowError_WhenWrongRegion(){
         int yearNum = -1;
-        String regionName = "Affe";
+        String regionName = "Test";
         String sectorName = "*";
         String fuelName = "*";
 
@@ -116,7 +116,7 @@ class ConnectionServiceTest {
     void getConnections_ShouldThrowError_WhenWrongSector(){
         int yearNum = 20;
         String regionName = "*";
-        String sectorName = "Affe";
+        String sectorName = "Test";
         String fuelName = "*";
 
         when(regionRepository.getRegionByName(regionName)).thenReturn(Optional.empty());
@@ -133,7 +133,7 @@ class ConnectionServiceTest {
         int yearNum = 20;
         String regionName = "*";
         String sectorName = "*";
-        String fuelName = "Affe";
+        String fuelName = "Test";
 
         when(regionRepository.getRegionByName(regionName)).thenReturn(Optional.empty());
         when(sectorRepository.getSectorByName(sectorName)).thenReturn(Optional.empty());

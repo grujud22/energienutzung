@@ -28,127 +28,123 @@ public class CSVToJson implements ApplicationRunner {
     private final SectorRepository sectorRepository;
     private final YearRepository yearRepository;
 
-    public static final boolean READ_CSV = true;
-    public static final boolean READ_FROM_FILE = true;
-
     @Override
     public void run(@NonNull ApplicationArguments args) throws Exception {
-        log.info("Starting with:  - READ_FROM_FILE:{}  - READ_CSV:{}", READ_FROM_FILE, READ_CSV);
-        if(READ_CSV && READ_FROM_FILE){
-            List<Connection> connections = new ArrayList<>();
-            List<Region> regions = new ArrayList<>();
-            List<Year> years = new ArrayList<>();
-            List<Sector> sectors = new ArrayList<>();
+        log.info("Starting read...");
+        List<Connection> connections = new ArrayList<>();
+        List<Region> regions = new ArrayList<>();
+        List<Year> years = new ArrayList<>();
+        List<Sector> sectors = new ArrayList<>();
 
-            PathMatchingResourcePatternResolver resolver =
-                    new PathMatchingResourcePatternResolver();
-            Resource[] resources = resolver.getResources("2005-2024/*.csv");
-            for (Resource resource : resources) {
-                BufferedReader reader = new BufferedReader(
-                        new InputStreamReader(resource.getInputStream()));
-                Year currentYear = null;
-                List<Region> currentRegions = new ArrayList<>();
-                List<Connection> yearRegionConnection = new ArrayList<>();
-                List<Connection> yearRegionSectorConnection = new ArrayList<>();
-                String currentSectorName = null;
-                String line;
-                while ((line = reader.readLine()) != null){
-                    try{
-                        String[] tokens = line.split(",");
-                        if(!tokens[0].isBlank()){
-                            if(tokens[0].startsWith("\"") && !tokens[0].endsWith("\"")){
-                                String[] realTokens = new String[tokens.length-1];
-                                realTokens[0] = tokens[0] + ',' + tokens[1];
-                                for (int i = 1; i < realTokens.length; i++) {
-                                    realTokens[i]=tokens[i+1];
-                                }
-                                tokens = realTokens;
+        PathMatchingResourcePatternResolver resolver =
+                new PathMatchingResourcePatternResolver();
+        Resource[] resources = resolver.getResources("2005-2024/*.csv");
+        for (Resource resource : resources) {
+            BufferedReader reader = new BufferedReader(
+                    new InputStreamReader(resource.getInputStream()));
+            Year currentYear = null;
+            List<Region> currentRegions = new ArrayList<>();
+            List<Connection> yearRegionConnection = new ArrayList<>();
+            List<Connection> yearRegionSectorConnection = new ArrayList<>();
+            String currentSectorName = null;
+            String line;
+            while ((line = reader.readLine()) != null){
+                try{
+                    String[] tokens = line.split(",");
+                    if(!tokens[0].isBlank()){
+                        if(tokens[0].startsWith("\"") && !tokens[0].endsWith("\"")){
+                            String[] realTokens = new String[tokens.length-1];
+                            realTokens[0] = tokens[0] + ',' + tokens[1];
+                            for (int i = 1; i < realTokens.length; i++) {
+                                realTokens[i]=tokens[i+1];
                             }
+                            tokens = realTokens;
                         }
-
-                        if(tokens[0].equals("\"Year\"")){
-                            int yearNumber = Integer.parseInt(tokens[1].substring(1, tokens[1].length()-1));
-                            currentYear = new Year();
-                            currentYear.setYear(yearNumber);
-
-                            currentYear = years.stream()
-                                    .filter(y -> y.getYear() == yearNumber)
-                                    .findFirst()
-                                    .orElse(currentYear);
-
-                            if(!years.contains(currentYear)){
-                                years.add(currentYear);
-                            }
-
-                        }else if(tokens[0].isBlank()){
-                            switch (tokens[1].substring(1, tokens[1].length()-1)){
-                                case "Province (NUTS 2 unit)":
-                                    for (Region region : getRegions(tokens)) {
-                                        Connection newConnection = new Connection();
-                                        String name = region.getRegionName();
-
-                                        region = regions.stream().filter(r->
-                                                                r.getRegionName().equals(name)
-                                                        ).findFirst()
-                                                        .orElse(region);
-                                        if(!regions.contains(region)){
-                                            regions.add(region);
-                                        }
-                                        newConnection.setYear(currentYear);
-                                        newConnection.setRegion(region);
-
-                                        currentRegions.add(region);
-                                        yearRegionConnection.add(newConnection);
-                                    }
-                                    break;
-                                case "Useful energy category":
-                                    break;
-                                default:
-                                    if (currentYear != null){
-                                        connections.addAll(addCells(tokens, currentRegions, currentSectorName, yearRegionSectorConnection, currentYear.getYear()));
-                                    }
-                                    break;
-                            }
-                        } else if (!tokens[0].equals("\"Sector\"")) {
-                            currentSectorName = tokens[0].substring(1, tokens[0].length() - 1);
-
-                            Sector sector = new Sector();
-                            sector.setSectorName(currentSectorName);
-
-
-                            String name = currentSectorName;
-                            sector = sectors.stream().filter(s -> s.getSectorName().equals(name))
-                                    .findFirst()
-                                    .orElse(sector);
-
-                            if(!sectors.contains(sector)){
-                                sectors.add(sector);
-                            }
-
-                            for(Connection c : yearRegionConnection){
-                                Connection newConnection = new Connection();
-                                newConnection.setRegion(c.getRegion());
-                                newConnection.setYear(c.getYear());
-                                newConnection.setSector(sector);
-
-                                yearRegionSectorConnection.add(newConnection);
-                            }
-                            if (currentYear != null){
-                                connections.addAll(addCells(tokens, currentRegions, currentSectorName, yearRegionSectorConnection, currentYear.getYear()));
-                            }
-                        }
-                    }catch (ArrayIndexOutOfBoundsException ex){
-                        log.warn("{} IGNORED because {}\n{}", resource.getFilename(), ex.getMessage(), line);
                     }
+
+                    if(tokens[0].equals("\"Year\"")){
+                        int yearNumber = Integer.parseInt(tokens[1].substring(1, tokens[1].length()-1));
+                        currentYear = new Year();
+                        currentYear.setYear(yearNumber);
+
+                        currentYear = years.stream()
+                                .filter(y -> y.getYear() == yearNumber)
+                                .findFirst()
+                                .orElse(currentYear);
+
+                        if(!years.contains(currentYear)){
+                            years.add(currentYear);
+                        }
+
+                    }else if(tokens[0].isBlank()){
+                        switch (tokens[1].substring(1, tokens[1].length()-1)){
+                            case "Province (NUTS 2 unit)":
+                                for (Region region : getRegions(tokens)) {
+                                    Connection newConnection = new Connection();
+                                    String name = region.getRegionName();
+
+                                    region = regions.stream().filter(r->
+                                                            r.getRegionName().equals(name)
+                                                    ).findFirst()
+                                                    .orElse(region);
+                                    if(!regions.contains(region)){
+                                        regions.add(region);
+                                    }
+                                    newConnection.setYear(currentYear);
+                                    newConnection.setRegion(region);
+
+                                    currentRegions.add(region);
+                                    yearRegionConnection.add(newConnection);
+                                }
+                                break;
+                            case "Useful energy category":
+                                break;
+                            default:
+                                if (currentYear != null){
+                                    connections.addAll(addCells(tokens, currentRegions, currentSectorName, yearRegionSectorConnection, currentYear.getYear()));
+                                }
+                                break;
+                        }
+                    } else if (!tokens[0].equals("\"Sector\"")) {
+                        currentSectorName = tokens[0].substring(1, tokens[0].length() - 1);
+
+                        Sector sector = new Sector();
+                        sector.setSectorName(currentSectorName);
+
+
+                        String name = currentSectorName;
+                        sector = sectors.stream().filter(s -> s.getSectorName().equals(name))
+                                .findFirst()
+                                .orElse(sector);
+
+                        if(!sectors.contains(sector)){
+                            sectors.add(sector);
+                        }
+
+                        for(Connection c : yearRegionConnection){
+                            Connection newConnection = new Connection();
+                            newConnection.setRegion(c.getRegion());
+                            newConnection.setYear(c.getYear());
+                            newConnection.setSector(sector);
+
+                            yearRegionSectorConnection.add(newConnection);
+                        }
+                        if (currentYear != null){
+                            connections.addAll(addCells(tokens, currentRegions, currentSectorName, yearRegionSectorConnection, currentYear.getYear()));
+                        }
+                    }
+                }catch (ArrayIndexOutOfBoundsException ex){
+                    log.warn("{} IGNORED because {}\n{}", resource.getFilename(), ex.getMessage(), line);
                 }
             }
-            log.info("starting save");
-            yearRepository.saveAll(years);
-            sectorRepository.saveAll(sectors);
-            regionRepository.saveAll(regions);
-            connectionRepository.saveAll(connections);
-            log.info("finished saving CSV");
         }
+        log.info("starting save");
+        yearRepository.saveAll(years);
+        sectorRepository.saveAll(sectors);
+        regionRepository.saveAll(regions);
+        connectionRepository.saveAll(connections);
+        log.info("finished saving CSV");
+
     }
 
     private List<Region> getRegions(String[] tokens){
